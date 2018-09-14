@@ -8,17 +8,20 @@
 
 import Foundation
 
-let convertValuecmTom : Float = 100
+let convertcmTomValue : Float = 100
 let convertcmToinchValue : Float = 0.393
-let convertcmToYard : Float = 0.0109
+let convertcmToYardValue : Float = 0.0109
+let convertkgTogValue : Float = 1000
+let convertoztokgValue : Float = 0.0283
+let convertlbtokgValue : Float = 0.4535
 
 
 func centimeterToMeter(_ originNumber : Float) -> Float{                                                    // cm -> m
-    return originNumber / convertValuecmTom
+    return originNumber / convertcmTomValue
 }
 
 func meterTocentimeter(_ originNumber : Float) -> Float{                                                    // m -> cm
-    return originNumber * convertValuecmTom
+    return originNumber * convertcmTomValue
 }
 
 func centimeterToinch(_ originNumber : Float) -> Float{                                                     // cm -> inch
@@ -30,12 +33,37 @@ func inchTocentimeter(_ originNumber : Float) -> Float{                         
 }
 
 func centimeterToyard(_ originNumber : Float) -> Float{                                                     // cm -> yard
-    return originNumber * convertcmToYard
+    return originNumber * convertcmToYardValue
 }
 
 func yardTocentimeter(_ originNumber : Float) -> Float{                                                     // yard -> cm
-    return originNumber / convertcmToYard
+    return originNumber / convertcmToYardValue
 }
+
+func kgTog(_ originNumber : Float) -> Float{
+    return originNumber * convertkgTogValue
+}
+
+func gTokg(_ originNumber : Float) -> Float{
+    return originNumber / convertkgTogValue
+}
+
+func ozTokg(_ originNumber : Float) -> Float{
+    return originNumber * convertoztokgValue
+}
+
+func kgTooz(_ originNumber : Float) -> Float{
+    return originNumber / convertoztokgValue
+}
+
+func lbTokg(_ originNumber : Float) -> Float{
+    return originNumber * convertlbtokgValue
+}
+
+func kgTolb(_ originNumber : Float) -> Float{
+    return originNumber / convertlbtokgValue
+}
+
 
 func enterUserInput() -> (number : String, UnitOne : String, UnitTwo : String){                             // 사용자 입력 받는부분
 
@@ -62,10 +90,37 @@ func unitConvert(_ originnumber : String, _ UnitOne : String, _ UnitTwo : String
     var convertNumber : Float
     
     switch (UnitOne, UnitTwo){
+    case("kg", "g"):
+        convertNumber = kgTog(Float(originnumber)!)
+        print("\(convertNumber)g")
+    case("g", "kg"):
+        convertNumber = gTokg(Float(originnumber)!)
+        print("\(convertNumber)kg")
+    case("kg", "oz"):
+        convertNumber = kgTooz(Float(originnumber)!)
+        print("\(convertNumber)oz")
+    case("oz", "kg"):
+        convertNumber = ozTokg(Float(originnumber)!)
+        print("\(convertNumber)kg")
+    case("kg", "lb"):
+        convertNumber = kgTolb(Float(originnumber)!)
+        print("\(convertNumber)lb")
+    case("lb", "kg"):
+        convertNumber = lbTokg(Float(originnumber)!)
+        print("\(convertNumber)kg")
+    case("g", "oz"):
+        convertNumber = kgTooz(gTokg(Float(originnumber)!))
+        print("\(convertNumber)oz")
+    case("oz", "g"):
+        convertNumber = kgTog(ozTokg(Float(originnumber)!))
+        print("\(convertNumber)g")
+    case("g", "lb"):
+        convertNumber = kgTolb(gTokg(Float(originnumber)!))
+        print("\(convertNumber)lb")
+    case("lb", "g"):
+        convertNumber = kgTog(lbTokg(Float(originnumber)!))
+        print("\(convertNumber)g")
     case("yard", "m"):
-        convertNumber = centimeterToMeter(yardTocentimeter(Float(originnumber)!))
-        print("\(convertNumber)m")
-    case("yard", _):
         convertNumber = centimeterToMeter(yardTocentimeter(Float(originnumber)!))
         print("\(convertNumber)m")
     case("m", "yard"):
@@ -89,6 +144,15 @@ func unitConvert(_ originnumber : String, _ UnitOne : String, _ UnitTwo : String
     case("m", _):
         convertNumber = meterTocentimeter(Float(originnumber)!)
         print("\(convertNumber)cm")
+    case("yard", _):
+        convertNumber = centimeterToMeter(yardTocentimeter(Float(originnumber)!))
+        print("\(convertNumber)m")
+    case("kg", _):
+        convertNumber = kgTog(Float(originnumber)!)
+        print("\(convertNumber)g")
+    case("g", _):
+        convertNumber = gTokg(Float(originnumber)!)
+        print("\(convertNumber)kg")
     case(_, _):
         print("지원하지 않는 단위 입니다.")
     }
