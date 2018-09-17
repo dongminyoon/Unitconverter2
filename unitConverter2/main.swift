@@ -85,77 +85,143 @@ func enterUserInput() -> (number : String, UnitOne : String, UnitTwo : String){ 
     
 }
 
-func unitConvert(_ originnumber : String, _ UnitOne : String, _ UnitTwo : String){                          // 단위 변환해주는 함수
+func unitConvert(_ originnumber : String, _ UnitOne : String, _ UnitTwo : String) -> String{                          // 단위 변환해주는 함수
     
     var convertNumber : Float
+    var convertedNumberUnit : String
     
-    switch (UnitOne, UnitTwo){
-    case("kg", "g"):
-        convertNumber = kgTog(Float(originnumber)!)
-        print("\(convertNumber)g")
-    case("g", "kg"):
-        convertNumber = gTokg(Float(originnumber)!)
-        print("\(convertNumber)kg")
-    case("kg", "oz"):
-        convertNumber = kgTooz(Float(originnumber)!)
-        print("\(convertNumber)oz")
-    case("oz", "kg"):
-        convertNumber = ozTokg(Float(originnumber)!)
-        print("\(convertNumber)kg")
-    case("kg", "lb"):
-        convertNumber = kgTolb(Float(originnumber)!)
-        print("\(convertNumber)lb")
-    case("lb", "kg"):
-        convertNumber = lbTokg(Float(originnumber)!)
-        print("\(convertNumber)kg")
-    case("g", "oz"):
-        convertNumber = kgTooz(gTokg(Float(originnumber)!))
-        print("\(convertNumber)oz")
-    case("oz", "g"):
-        convertNumber = kgTog(ozTokg(Float(originnumber)!))
-        print("\(convertNumber)g")
-    case("g", "lb"):
-        convertNumber = kgTolb(gTokg(Float(originnumber)!))
-        print("\(convertNumber)lb")
-    case("lb", "g"):
-        convertNumber = kgTog(lbTokg(Float(originnumber)!))
-        print("\(convertNumber)g")
-    case("yard", "m"):
-        convertNumber = centimeterToMeter(yardTocentimeter(Float(originnumber)!))
-        print("\(convertNumber)m")
-    case("m", "yard"):
-        convertNumber = centimeterToyard(meterTocentimeter(Float(originnumber)!))
-        print("\(convertNumber)yard")
-    case("m", "inch"):
-        convertNumber = centimeterToinch(meterTocentimeter(Float(originnumber)!))
-        print("\(convertNumber)inch")
-    case("inch", "m"):
-        convertNumber = centimeterToMeter(inchTocentimeter(Float(originnumber)!))
-        print("\(convertNumber)m")
-    case("inch", "cm"):
-        convertNumber = inchTocentimeter(Float(originnumber)!)
-        print("\(convertNumber)cm")
-    case("cm", "inch"):
-        convertNumber = centimeterToinch(Float(originnumber)!)
-        print("\(convertNumber)inch")
-    case("cm", _):
-        convertNumber = centimeterToMeter(Float(originnumber)!)
-        print("\(convertNumber)m")
-    case("m", _):
-        convertNumber = meterTocentimeter(Float(originnumber)!)
-        print("\(convertNumber)cm")
-    case("yard", _):
-        convertNumber = centimeterToMeter(yardTocentimeter(Float(originnumber)!))
-        print("\(convertNumber)m")
-    case("kg", _):
-        convertNumber = kgTog(Float(originnumber)!)
-        print("\(convertNumber)g")
-    case("g", _):
-        convertNumber = gTokg(Float(originnumber)!)
-        print("\(convertNumber)kg")
-    case(_, _):
-        print("지원하지 않는 단위 입니다.")
+    if Float(originnumber) == nil{                                                                                    // 변환할 숫자를 잘못 입력한 경우! Ex) 1cm m --> 공백이 X
+        convertedNumberUnit = "지원하지 않는 단위입니다."
+        return convertedNumberUnit
     }
+    
+    switch UnitTwo{
+    case "cm":                                                                                                          // cm 단위로 변환하는 경우
+        if UnitOne == "m"{
+            convertNumber = meterTocentimeter(Float(originnumber)!)
+        }
+        else if UnitOne == "inch"{
+            convertNumber = inchTocentimeter(Float(originnumber)!)
+        }
+        else if UnitOne == "yard"{
+            convertNumber = yardTocentimeter(Float(originnumber)!)
+        }
+        else{
+            convertedNumberUnit = "지원하지 않는 단위입니다."
+            return convertedNumberUnit
+        }
+        convertedNumberUnit = String(convertNumber) + "cm"
+        
+    case "m":                                                                                                           // m 단위로 변환하는 경우
+        if UnitOne == "cm"{
+            convertNumber = centimeterToMeter(Float(originnumber)!)
+        }
+        else if UnitOne == "inch"{
+            convertNumber = centimeterToMeter(inchTocentimeter(Float(originnumber)!))
+        }
+        else if UnitOne == "yard"{
+            convertNumber = centimeterToMeter(yardTocentimeter(Float(originnumber)!))
+        }
+        else{
+            convertedNumberUnit = "지원하지 않는 단위입니다."
+            return convertedNumberUnit
+        }
+        convertedNumberUnit = String(convertNumber) + "m"
+        
+    case "inch":                                                                                                        // inch 단위로 변환하는 경우
+        if UnitOne == "cm"{
+            convertNumber = centimeterToinch(Float(originnumber)!)
+        }
+        else if UnitOne == "m"{
+            convertNumber = centimeterToinch(meterTocentimeter(Float(originnumber)!))
+        }
+        else{
+            convertedNumberUnit = "지원하지 않는 단위입니다."
+            return convertedNumberUnit
+        }
+        convertedNumberUnit = String(convertNumber) + "inch"
+        
+    case "yard":                                                                                                        // yard 단위로 변환하는 경우
+        if UnitOne == "cm"{
+            convertNumber = centimeterToyard(Float(originnumber)!)
+        }
+        else if UnitOne == "m"{
+            convertNumber = centimeterToyard(meterTocentimeter(Float(originnumber)!))
+        }
+        else{
+            convertedNumberUnit = "지원하지 않는 단위입니다."
+            return convertedNumberUnit
+        }
+        convertedNumberUnit = String(convertNumber) + "yard"
+        
+    case "kg":                                                                                                          // kg 단위로 변환하는 경우
+        if UnitOne == "g"{
+            convertNumber = gTokg(Float(originnumber)!)
+        }
+        else if UnitOne == "oz"{
+            convertNumber = ozTokg(Float(originnumber)!)
+        }
+        else if UnitOne == "lb"{
+            convertNumber = lbTokg(Float(originnumber)!)
+        }
+        else{
+            convertedNumberUnit = "지원하지 않는 단위입니다."
+            return convertedNumberUnit
+        }
+        convertedNumberUnit = String(convertNumber) + "kg"
+        
+    case "oz":                                                                                                          // oz 단위로 변환하는 경우
+        if UnitOne == "g"{
+            convertNumber = kgTooz(gTokg(Float(originnumber)!))
+        }
+        else if UnitOne == "kg"{
+            convertNumber = kgTooz(gTokg(Float(originnumber)!))
+        }
+        else if UnitOne == "lb"{
+            convertNumber = kgTooz(gTokg(Float(originnumber)!))
+        }
+        else{
+            convertedNumberUnit = "지원하지 않는 단위입니다."
+            return convertedNumberUnit
+        }
+        convertedNumberUnit = String(convertNumber) + "oz"
+        
+    case "lb":
+        if UnitOne == "g"{
+            convertNumber = kgTolb(gTokg(Float(originnumber)!))
+        }
+        else if UnitOne == "kg"{
+            convertNumber = kgTolb(Float(originnumber)!)
+        }
+        else if UnitOne == "oz"{
+            convertNumber = kgTolb(ozTokg(Float(originnumber)!))
+        }
+        else{
+            convertedNumberUnit = "지원하지 않는 단위입니다."
+            return convertedNumberUnit
+        }
+        convertedNumberUnit = String(convertNumber) + "lb"
+        
+    default:                                                                                                            // 변환받을 단위를 입력하지 않은 예외의 경우 Ex) 1 m
+        if UnitOne == "cm"{                                                                                             // , 1 cm, 1 yard
+            convertNumber = centimeterToMeter(Float(originnumber)!)
+            convertedNumberUnit = String(convertNumber) + "m"
+        }
+        else if UnitOne == "m"{
+            convertNumber = meterTocentimeter(Float(originnumber)!)
+            convertedNumberUnit = String(convertNumber) + "cm"
+        }
+        else if UnitOne == "yard"{
+            convertNumber = centimeterToMeter(yardTocentimeter(Float(originnumber)!))
+            convertedNumberUnit = String(convertNumber) + "cm"
+        }
+        else{
+            convertedNumberUnit = "지원하지 않는 단위입니다."
+            return convertedNumberUnit
+        }
+    }
+    
+    return convertedNumberUnit
 }
 
 while true{
@@ -165,7 +231,7 @@ while true{
         break
     }
     
-    unitConvert(numberUnitSet.number, numberUnitSet.UnitOne, numberUnitSet.UnitTwo)
+    print(unitConvert(numberUnitSet.number, numberUnitSet.UnitOne, numberUnitSet.UnitTwo))
 }
 
 
